@@ -6,6 +6,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import customexceptions.MatriculaInvalidaException;
+import customexceptions.NomeInvalidoException;
+
 @Entity
 public class Politico {
 	@Id
@@ -20,11 +23,12 @@ public class Politico {
 	private long inscricaoEleitoral;
 	//private ArrayList<Projeto> projetos;
 	
-	public Politico(String nome, String sobrenome, Cargos cargo, long inscricaoEleitoral) {
-		this.nome = nome;
-		this.sobrenome = sobrenome;
+	public Politico(String nome, String sobrenome, Cargos cargo, long inscricaoEleitoral) 
+			throws NomeInvalidoException, MatriculaInvalidaException {
+		setNome(nome);
+		setSobrenome(sobrenome);
 		this.cargo = cargo;
-		this.inscricaoEleitoral = inscricaoEleitoral;
+		setInscricaoEleitoral(inscricaoEleitoral);
 	}
 	
 	public Politico() {};
@@ -33,7 +37,10 @@ public class Politico {
 		return nome;
 	}
 
-	public void setNome(String nome) {
+	public void setNome(String nome) throws NomeInvalidoException {
+		if(nome.length() < 5 || nome == null || nome.length() == 0) {
+			throw new NomeInvalidoException();
+		}
 		this.nome = nome;
 	}
 
@@ -41,7 +48,11 @@ public class Politico {
 		return sobrenome;
 	}
 
-	public void setSobrenome(String sobrenome) {
+	public void setSobrenome(String sobrenome) throws NomeInvalidoException {
+		if(sobrenome.length() < 5 || sobrenome == null || sobrenome.length() == 0) {
+			throw new NomeInvalidoException();
+		}
+		
 		this.sobrenome = sobrenome;
 	}
 
@@ -57,7 +68,10 @@ public class Politico {
 		return inscricaoEleitoral;
 	}
 
-	public void setInscricaoEleitoral(long inscricaoEleitoral) {
+	public void setInscricaoEleitoral(long inscricaoEleitoral) throws MatriculaInvalidaException {
+		if(inscricaoEleitoral < 0) {
+			throw new MatriculaInvalidaException();
+		}
 		this.inscricaoEleitoral = inscricaoEleitoral;
 	}
 
