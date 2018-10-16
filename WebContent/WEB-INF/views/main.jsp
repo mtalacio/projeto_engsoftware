@@ -4,9 +4,10 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Herro!</title>
+<title>Logado</title>
 </head>
 <body>
-	<h2>Deu bom!</h2>
+<h1>Logado Corretamente</h1>
+<a href=logout>Sair</a>
 </body>
 </html>

@@ -7,9 +7,9 @@ import javax.persistence.Persistence;
 public class Database {
 	
 	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory("engenhariasoftware");
-	private static EntityManager manager = factory.createEntityManager();
+	protected static EntityManager manager = factory.createEntityManager();
 	
-	public static void Inserir(Object o) throws IllegalArgumentException {
+	public void Inserir(Object o) throws IllegalArgumentException {
 		try {
 			manager.getTransaction().begin();
 			manager.persist(o);

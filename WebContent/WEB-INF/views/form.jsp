@@ -8,7 +8,6 @@
 		E-mail: 
 		<input type="text" name="email" /><br />
 		<input type="submit" value="Gravar" />
-		<form:errors path="user.nome" cssStyle="color:red"/>
 	</form>
 	
 	<form action = "retrieveuser">
