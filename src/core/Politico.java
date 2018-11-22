@@ -1,6 +1,8 @@
-package engsoftware;
+package core;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,10 +10,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import org.hibernate.sql.Insert;
-
-import customexceptions.MatriculaInvalidaException;
-import customexceptions.NomeInvalidoException;
+import politicoexceptions.CpfInvalidoException;
+import politicoexceptions.DataInvalidaException;
+import politicoexceptions.EmailInvalidoException;
+import politicoexceptions.FormacaoAcademicaInvalida;
+import politicoexceptions.MatriculaInvalidaException;
+import politicoexceptions.NomeInvalidoException;
 
 @Entity
 public class Politico extends Database {
@@ -38,15 +42,10 @@ public class Politico extends Database {
 	@Column(columnDefinition = "smallint")
 	private Estados estado;
 	private long inscricaoEleitoral;
-	//private ArrayList<Projeto> projetos;
 	
 	private String formacaoAcademica;
 	private LocalDate dataFormacaoAcademica;
 	private String instituicaoAcademica;
-	
-	public Politico() {
-		
-	}
 	
 	public String getApelido() {
 		return apelido;
@@ -60,7 +59,9 @@ public class Politico extends Database {
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public void setEmail(String email) throws EmailInvalidoException {
+		if(email.length() < 5 || email == null)
+			throw new EmailInvalidoException();
 		this.email = email;
 	}
 
@@ -68,16 +69,31 @@ public class Politico extends Database {
 		return cpf;
 	}
 
-	public void setCpf(String cpf) {
+	public void setCpf(String cpf) throws CpfInvalidoException {
+		if(cpf.length() < 0 || cpf == null)
+			throw new CpfInvalidoException();
 		this.cpf = cpf;
 	}
-
+	
+	private LocalDate converterData(String data) throws DateTimeParseException {
+		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		try {
+			return LocalDate.parse(data, f);
+		} catch (DateTimeParseException e) {
+			throw e;
+		}
+	}
+	
 	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(LocalDate dataNascimento) {
-		this.dataNascimento = dataNascimento;
+	public void setDataNascimento(String dataNascimento) throws DateTimeParseException {
+		try {
+			this.dataNascimento = converterData(dataNascimento);
+		} catch (DateTimeParseException e) {
+			throw new DataInvalidaException("Data de Nascimento Inválida (dd/mm/aaaa)", e);
+		}
 	}
 
 	public Partidos getPartido() {
@@ -108,7 +124,9 @@ public class Politico extends Database {
 		return formacaoAcademica;
 	}
 
-	public void setFormacaoAcademica(String formacaoAcademica) {
+	public void setFormacaoAcademica(String formacaoAcademica) throws FormacaoAcademicaInvalida {
+		if(formacaoAcademica.length() <= 0 || formacaoAcademica == null || formacaoAcademica.length() > 200)
+			throw new FormacaoAcademicaInvalida();
 		this.formacaoAcademica = formacaoAcademica;
 	}
 
@@ -116,15 +134,21 @@ public class Politico extends Database {
 		return dataFormacaoAcademica;
 	}
 
-	public void setDataFormacaoAcademica(LocalDate dataFormacaoAcademica) {
-		this.dataFormacaoAcademica = dataFormacaoAcademica;
+	public void setDataFormacaoAcademica(String dataFormacaoAcademica) throws DataInvalidaException {
+		try {
+			this.dataFormacaoAcademica = converterData(dataFormacaoAcademica);
+		} catch (DateTimeParseException e) {
+			throw new DataInvalidaException("Data de Formação Inválida (dd/mm/aaaa)", e);
+		}
 	}
 
 	public String getInstituicaoAcademica() {
 		return instituicaoAcademica;
 	}
 
-	public void setInstituicaoAcademica(String instituicaoAcademica) {
+	public void setInstituicaoAcademica(String instituicaoAcademica) throws InstituicaoAcademicaInvalida {
+		if(instituicaoAcademica.length() <= 0 || instituicaoAcademica == null || instituicaoAcademica.length() > 200)
+			throw new InstituicaoAcademicaInvalida();
 		this.instituicaoAcademica = instituicaoAcademica;
 	}
 
@@ -174,26 +198,28 @@ public class Politico extends Database {
 		return id;
 	}
 
-	public Politico(String nome, String sobrenome, String apelido, String email, String cpf, LocalDate dataNascimento,
+	public Politico(String nome, String sobrenome, String apelido, String email, String cpf, String dataNascimento,
 			Cargos cargo, Partidos partido, Orgaos orgao, Estados estado, long inscricaoEleitoral,
-			String formacaoAcademica, LocalDate dataFormacaoAcademica, String instituicaoAcademica) {
-		super();
-		this.nome = nome;
-		this.sobrenome = sobrenome;
-		this.apelido = apelido;
-		this.email = email;
-		this.cpf = cpf;
-		this.dataNascimento = dataNascimento;
+			String formacaoAcademica, String dataFormacaoAcademica, String instituicaoAcademica, boolean persist) 
+					throws NomeInvalidoException, EmailInvalidoException, CpfInvalidoException, MatriculaInvalidaException, 
+					FormacaoAcademicaInvalida, InstituicaoAcademicaInvalida, DateTimeParseException {
+		setNome(nome);
+		setSobrenome(sobrenome);
+		setApelido(apelido);;
+		setEmail(email);
+		setCpf(cpf);
 		this.cargo = cargo;
 		this.partido = partido;
 		this.orgao = orgao;
 		this.estado = estado;
-		this.inscricaoEleitoral = inscricaoEleitoral;
-		this.formacaoAcademica = formacaoAcademica;
-		this.dataFormacaoAcademica = dataFormacaoAcademica;
-		this.instituicaoAcademica = instituicaoAcademica;
+		setInscricaoEleitoral(inscricaoEleitoral);
+		setFormacaoAcademica(dataFormacaoAcademica);
+		setInstituicaoAcademica(instituicaoAcademica);
+		setDataNascimento(dataNascimento);
+		setDataFormacaoAcademica(dataFormacaoAcademica);
 		
-		Inserir(this);
+		if(persist)
+			Inserir(this);
 	}
 
 }

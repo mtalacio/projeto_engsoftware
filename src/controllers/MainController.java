@@ -5,8 +5,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import engsoftware.Admin;
-import engsoftware.Autenticador;
+import core.Admin;
+import core.Autenticador;
 
 @Controller
 public class MainController {

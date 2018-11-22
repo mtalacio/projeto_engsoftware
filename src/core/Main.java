@@ -1,4 +1,4 @@
-package engsoftware;
+package core;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

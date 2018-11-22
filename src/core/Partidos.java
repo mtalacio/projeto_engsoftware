@@ -1,4 +1,4 @@
-package engsoftware;
+package core;
 
 public enum Partidos {
 	PT,
