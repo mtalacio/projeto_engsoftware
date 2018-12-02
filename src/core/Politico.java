@@ -218,7 +218,7 @@ public class Politico extends Database {
 		this.orgao = orgao;
 		this.estado = estado;
 		setInscricaoEleitoral(inscricaoEleitoral);
-		setFormacaoAcademica(dataFormacaoAcademica);
+		setFormacaoAcademica(formacaoAcademica);
 		setInstituicaoAcademica(instituicaoAcademica);
 		setDataNascimento(dataNascimento);
 		setDataFormacaoAcademica(dataFormacaoAcademica);
