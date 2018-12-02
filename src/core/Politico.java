@@ -14,6 +14,7 @@ import politicoexceptions.CpfInvalidoException;
 import politicoexceptions.DataInvalidaException;
 import politicoexceptions.EmailInvalidoException;
 import politicoexceptions.FormacaoAcademicaInvalida;
+import politicoexceptions.InstituicaoAcademicaInvalida;
 import politicoexceptions.MatriculaInvalidaException;
 import politicoexceptions.NomeInvalidoException;
 
@@ -197,6 +198,10 @@ public class Politico extends Database {
 	public int getId() {
 		return id;
 	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public Politico(String nome, String sobrenome, String apelido, String email, String cpf, String dataNascimento,
 			Cargos cargo, Partidos partido, Orgaos orgao, Estados estado, long inscricaoEleitoral,
@@ -222,5 +227,6 @@ public class Politico extends Database {
 			Inserir(this);
 	}
 
+	public Politico() {}
 }
  

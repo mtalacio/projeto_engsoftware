@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Portal de Transparência</title>
+<title>Painel de Administração</title>
 </head>
 <body>
-<a href=pesquisa>Pesquisar Político</a><br>
-<a href=admin>Administração</a>
+<a href="cadastro">Cadastrar</a><br>
+<a href="editaCadastro">Editar Cadastro</a>
 </body>
 </html>

@@ -3,6 +3,7 @@ package controllers;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import core.Admin;
@@ -13,7 +14,6 @@ public class MainController {
 
 	@RequestMapping("/")
 	public String Entrar() {
-		System.out.println("Ok");
 		return("main");
 	}
 	
@@ -26,10 +26,15 @@ public class MainController {
 	public String EfetuaLogin(Admin a, HttpSession session) {
 		if(Autenticador.Autenticar(a)) {
 			session.setAttribute("usuarioLogado", true);
-			return "main";
+			return "painel";
 		} else {
 			return "redirect:login";
 		}
+	}
+	
+	@RequestMapping("/admin")
+	public String PainelAdmin(Model m) {
+		return "painel";
 	}
 	
 	@RequestMapping("/logout")

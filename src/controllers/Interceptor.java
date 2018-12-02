@@ -12,7 +12,12 @@ public class Interceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		
 		String uri = request.getRequestURI();
-		if(uri.endsWith("login") || uri.endsWith("efetuaLogin")) {
+		if(uri.endsWith("login") 
+				|| uri.endsWith("efetuaLogin")
+				|| uri.endsWith("/")
+				|| uri.endsWith("perfil")
+				|| uri.endsWith("pesquisa")) {
+			
 			return true;
 		}
 		

@@ -1,4 +1,4 @@
-package core;
+package politicoexceptions;
 
 @SuppressWarnings("serial")
 public class InstituicaoAcademicaInvalida extends Exception {
